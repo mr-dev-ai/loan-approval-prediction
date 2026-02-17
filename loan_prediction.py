@@ -5,10 +5,14 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
 from sklearn.preprocessing import StandardScaler
 
-df = pd.read_csv("loan_data.csv")
+df = pd.read_csv(r"C:\Users\Manivel R\Documents\GitHub\python-basics-practice\loan-approval-prediction\loan_data.csv")
+df.columns = df.columns.str.strip()
 
 print("Dataset Preview:")
 print(df.head())
+
+df["loan_status"] = df["loan_status"].str.strip().str.capitalize()
+y = df["loan_status"].map({"Approved": 1, "Rejected": 0})
 
 X = df[[
     "no_of_dependents",
@@ -23,7 +27,6 @@ X = df[[
     "luxury_assets_value",
     "bank_asset_value"
 ]]
-y = df["loan_status"].map({"Approved": 1, "Rejected": 0})
 
 X = pd.get_dummies(X, columns=["education", "self_employed"], drop_first=True)
 
